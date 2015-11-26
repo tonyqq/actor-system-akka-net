@@ -1,11 +1,10 @@
 ﻿using Akka.Actor;
+using MovieStreaming.Actors;
+using MovieStreaming.Messages;
 using System;
 
 namespace MovieStreaming
 {
-    using MovieStreaming.Actors;
-    using MovieStreaming.Messages;
-
     class Program
     {
         private static ActorSystem movieStreamingActorSystem;
