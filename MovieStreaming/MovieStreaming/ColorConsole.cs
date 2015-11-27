@@ -19,5 +19,13 @@
             Console.WriteLine(message);
             Console.ForegroundColor = beforeColor;
         }
+
+        public static void WriteRedLine(string message)
+        {
+            var beforeColor = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(message);
+            Console.ForegroundColor = beforeColor;
+        }
     }
 }
