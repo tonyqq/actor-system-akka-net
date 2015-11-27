@@ -23,6 +23,8 @@ namespace MovieStreaming
             playbackActorRef.Tell(new PlayMovieMessage("Movie 3", 77));
             playbackActorRef.Tell(new PlayMovieMessage("Movie 4", 1));
 
+
+            playbackActorRef.Tell(PoisonPill.Instance); // calls playbackActor PostStop eventhough Shutdown was not called
             Console.ReadKey();
 
             movieStreamingActorSystem.Shutdown();
