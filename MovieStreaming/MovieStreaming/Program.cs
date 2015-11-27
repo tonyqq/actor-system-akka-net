@@ -5,24 +5,31 @@ using System;
 
 namespace MovieStreaming
 {
-    class Program
+    internal class Program
     {
         private static ActorSystem movieStreamingActorSystem;
 
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             movieStreamingActorSystem = ActorSystem.Create("movieStreamingActorSystem");
             Console.WriteLine("Actor system created");
 
-            Props playabackActorProps = Props.Create<PlaybackActor>();
+            var playabackActorProps = Props.Create<PlaybackActor>();
 
-            IActorRef playbackActorRef = movieStreamingActorSystem.ActorOf(playabackActorProps, "PlaybackActor");
+            var playbackActorRef = movieStreamingActorSystem.ActorOf(playabackActorProps, "PlaybackActor");
 
             playbackActorRef.Tell(new PlayMovieMessage("Akka.NET: The Movie", 42));
+            playbackActorRef.Tell(new PlayMovieMessage("Movie 2", 99));
+            playbackActorRef.Tell(new PlayMovieMessage("Movie 3", 77));
+            playbackActorRef.Tell(new PlayMovieMessage("Movie 4", 1));
 
-            Console.ReadLine();
+            Console.ReadKey();
 
             movieStreamingActorSystem.Shutdown();
+            movieStreamingActorSystem.AwaitTermination();
+
+            Console.WriteLine("Actor system shutdown");
+            Console.ReadKey();
         }
     }
 }
