@@ -19,11 +19,11 @@ namespace MovieStreaming
 
             Console.ReadKey();
             Console.WriteLine("Sending a PlayMovieMessage (Movie 2");
-            userActorRef.Tell(new PlayMovieMessage("Movie 1", 42));
+            userActorRef.Tell(new PlayMovieMessage("Movie 2", 42));
 
             Console.ReadKey();
-            Console.WriteLine("Sending a PlayMovieMessage (Movie 3)");
-            userActorRef.Tell(new PlayMovieMessage("Movie 2", 42));
+            Console.WriteLine("Sending another PlayMovieMessage (Movie 3)");
+            userActorRef.Tell(new PlayMovieMessage("Movie 3", 42));
 
             Console.ReadKey();
             Console.WriteLine("Sending a StopMovieMessage");
