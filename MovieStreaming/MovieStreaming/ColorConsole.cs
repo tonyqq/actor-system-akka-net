@@ -27,5 +27,13 @@
             Console.WriteLine(message);
             Console.ForegroundColor = beforeColor;
         }
+
+        public static void WriteCyanLine(string message)
+        {
+            var beforeColor = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine(message);
+            Console.ForegroundColor = beforeColor;
+        }
     }
 }

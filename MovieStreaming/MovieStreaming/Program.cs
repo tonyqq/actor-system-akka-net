@@ -33,14 +33,6 @@ namespace MovieStreaming
             Console.WriteLine("Sending another StopMovieMessage");
             userActorRef.Tell(new StopMovieMessage());
 
-            //var playabackActorProps = Props.Create<PlaybackActor>();
-            //var playbackActorRef = movieStreamingActorSystem.ActorOf(playabackActorProps, "PlaybackActor");
-            //playbackActorRef.Tell(new PlayMovieMessage("Akka.NET: The Movie", 42));
-            //playbackActorRef.Tell(new PlayMovieMessage("Movie 2", 99));
-            //playbackActorRef.Tell(new PlayMovieMessage("Movie 3", 77));
-            //playbackActorRef.Tell(new PlayMovieMessage("Movie 4", 1));
-            //playbackActorRef.Tell(PoisonPill.Instance); // calls playbackActor PostStop eventhough Shutdown was not called
-
             Console.ReadKey();
             movieStreamingActorSystem.Shutdown();
             movieStreamingActorSystem.AwaitTermination();

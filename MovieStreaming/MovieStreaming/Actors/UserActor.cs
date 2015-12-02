@@ -1,12 +1,9 @@
-﻿namespace MovieStreaming.Actors
+﻿using System;
+using Akka.Actor;
+using MovieStreaming.Messages;
+
+namespace MovieStreaming.Actors
 {
-    using System;
-    using System.Threading.Tasks;
-
-    using Akka.Actor;
-
-    using MovieStreaming.Messages;
-
     public class UserActor : ReceiveActor
     {
         private string _currentlyWatching;
@@ -15,44 +12,42 @@
         {
             Console.WriteLine("Creating a UserActor");
 
-            Receive<PlayMovieMessage>(mes => HandlePlayMovieMessage(mes));
-            Receive<StopMovieMessage>(mes => HandlePlayMovieMessage());
+            ColorConsole.WriteCyanLine("Setting initial behaviour to stopped");
+            Stopped();
         }
 
-        private void HandlePlayMovieMessage()
+        private void Playing()
         {
-            if (_currentlyWatching == null)
-            {
-                ColorConsole.WriteRedLine("Error: cannot stop if nothing is playing.");
-            }
-            else
-            {
-                StopPlayingCurrentMovie();
-            }
+            Receive<PlayMovieMessage>(
+                mes =>
+                ColorConsole.WriteRedLine("Error: cannot start playing another movie before stoping existing one."));
+            Receive<StopMovieMessage>(mes => StopPlayingCurrentMovie());
+
+            ColorConsole.WriteCyanLine("UserActor has now become Playing");
+        }
+
+        private void Stopped()
+        {
+            Receive<PlayMovieMessage>(mes => StartPlayingMovie(mes.MovieTitle));
+            Receive<StopMovieMessage>(mes => ColorConsole.WriteRedLine("Error: cannot stop if nothing is playing"));
+
+            ColorConsole.WriteCyanLine("UserActor has now become Stopped");
         }
 
         private void StopPlayingCurrentMovie()
         {
             ColorConsole.WriteYellowLine("User has stopped watching " + _currentlyWatching);
             _currentlyWatching = null;
+
+            Become(Stopped);
         }
 
-        private void HandlePlayMovieMessage(PlayMovieMessage mes)
-        {
-            if (_currentlyWatching != null)
-            {
-                ColorConsole.WriteRedLine("Error: cannot start playing another movie before stoping existing one.");
-            }
-            else
-            {
-                StartPlayingMoview(mes.MovieTitle);
-                ColorConsole.WriteYellowLine("User is currently watching " + _currentlyWatching);
-            }
-        }
-
-        private void StartPlayingMoview(string movieTitle)
+        private void StartPlayingMovie(string movieTitle)
         {
             _currentlyWatching = movieTitle;
+            ColorConsole.WriteYellowLine("User is currently watching " + _currentlyWatching);
+
+            Become(Playing);
         }
 
         protected override void PreStart()
