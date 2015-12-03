@@ -8,16 +8,15 @@ namespace MovieStreaming.Actors
     {
         public PlaybackActor()
         {
-            Console.WriteLine("Creating a PlaybackActor");
-
-            Receive<PlayMovieMessage>(mes => HandlePlayMovieMessage(mes));
+            Context.ActorOf(Props.Create<UserCoordinationActor>(), "UserCoordinator");
+            Context.ActorOf(Props.Create<PlaybackStatisticsActor>(), "PlaybackStatistics");
         }
 
         private static void HandlePlayMovieMessage(PlayMovieMessage message)
         {
             ColorConsole.WriteColorLine(
                 $"PlayMovieMessage: {message.MovieTitle} for user: {message.UserId}",
-                ConsoleColor.Yellow);
+                ConsoleColor.Green);
         }
 
         protected override void PreStart()
