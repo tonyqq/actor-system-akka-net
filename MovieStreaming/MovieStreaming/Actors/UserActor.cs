@@ -12,7 +12,7 @@ namespace MovieStreaming.Actors
         {
             Console.WriteLine("Creating a UserActor");
 
-            ColorConsole.WriteCyanLine("Setting initial behaviour to stopped");
+            ColorConsole.WriteColorLine("Setting initial behaviour to stopped", ConsoleColor.Cyan);
             Stopped();
         }
 
@@ -20,23 +20,26 @@ namespace MovieStreaming.Actors
         {
             Receive<PlayMovieMessage>(
                 mes =>
-                ColorConsole.WriteRedLine("Error: cannot start playing another movie before stoping existing one."));
+                ColorConsole.WriteColorLine(
+                    "Error: cannot start playing another movie before stoping existing one.",
+                    ConsoleColor.Red));
             Receive<StopMovieMessage>(mes => StopPlayingCurrentMovie());
 
-            ColorConsole.WriteCyanLine("UserActor has now become Playing");
+            ColorConsole.WriteColorLine("UserActor has now become Playing", ConsoleColor.Cyan);
         }
 
         private void Stopped()
         {
             Receive<PlayMovieMessage>(mes => StartPlayingMovie(mes.MovieTitle));
-            Receive<StopMovieMessage>(mes => ColorConsole.WriteRedLine("Error: cannot stop if nothing is playing"));
+            Receive<StopMovieMessage>(
+                mes => ColorConsole.WriteColorLine("Error: cannot stop if nothing is playing", ConsoleColor.Red));
 
-            ColorConsole.WriteCyanLine("UserActor has now become Stopped");
+            ColorConsole.WriteColorLine("UserActor has now become Stopped", ConsoleColor.Cyan);
         }
 
         private void StopPlayingCurrentMovie()
         {
-            ColorConsole.WriteYellowLine("User has stopped watching " + _currentlyWatching);
+            ColorConsole.WriteColorLine("User has stopped watching " + _currentlyWatching, ConsoleColor.Yellow);
             _currentlyWatching = null;
 
             Become(Stopped);
@@ -45,30 +48,30 @@ namespace MovieStreaming.Actors
         private void StartPlayingMovie(string movieTitle)
         {
             _currentlyWatching = movieTitle;
-            ColorConsole.WriteYellowLine("User is currently watching " + _currentlyWatching);
+            ColorConsole.WriteColorLine("User is currently watching " + _currentlyWatching, ConsoleColor.Yellow);
 
             Become(Playing);
         }
 
         protected override void PreStart()
         {
-            ColorConsole.WriteGreenLine("UserActor PreStart");
+            ColorConsole.WriteColorLine("UserActor PreStart", ConsoleColor.Green);
         }
 
         protected override void PostStop()
         {
-            ColorConsole.WriteGreenLine("UserActor PostStop");
+            ColorConsole.WriteColorLine("UserActor PostStop", ConsoleColor.Green);
         }
 
         protected override void PreRestart(Exception reason, object message)
         {
-            ColorConsole.WriteGreenLine("UserActor PreRestart because: " + reason);
+            ColorConsole.WriteColorLine("UserActor PreRestart because: " + reason, ConsoleColor.Green);
             base.PreRestart(reason, message);
         }
 
         protected override void PostRestart(Exception reason)
         {
-            ColorConsole.WriteGreenLine("UserActor PostRestart because: " + reason);
+            ColorConsole.WriteColorLine("UserActor PostRestart because: " + reason, ConsoleColor.Green);
             base.PostRestart(reason);
         }
     }

@@ -15,28 +15,30 @@ namespace MovieStreaming.Actors
 
         private static void HandlePlayMovieMessage(PlayMovieMessage message)
         {
-            ColorConsole.WriteYellowLine($"PlayMovieMessage: {message.MovieTitle} for user: {message.UserId}");
+            ColorConsole.WriteColorLine(
+                $"PlayMovieMessage: {message.MovieTitle} for user: {message.UserId}",
+                ConsoleColor.Yellow);
         }
 
         protected override void PreStart()
         {
-            ColorConsole.WriteGreenLine("PlaybackActor PreStart");
+            ColorConsole.WriteColorLine("PlaybackActor PreStart", ConsoleColor.Green);
         }
 
         protected override void PostStop()
         {
-            ColorConsole.WriteGreenLine("PlaybackActor PostStop");
+            ColorConsole.WriteColorLine("PlaybackActor PostStop", ConsoleColor.Green);
         }
 
         protected override void PreRestart(Exception reason, object message)
         {
-            ColorConsole.WriteGreenLine("PlaybackActor PreRestart because: " + reason);
+            ColorConsole.WriteColorLine("PlaybackActor PreRestart because: " + reason, ConsoleColor.Green);
             base.PreRestart(reason, message);
         }
 
         protected override void PostRestart(Exception reason)
         {
-            ColorConsole.WriteGreenLine("PlaybackActor PostRestart because: " + reason);
+            ColorConsole.WriteColorLine("PlaybackActor PostRestart because: " + reason, ConsoleColor.Green);
             base.PostRestart(reason);
         }
     }

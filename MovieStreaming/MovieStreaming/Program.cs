@@ -11,8 +11,9 @@ namespace MovieStreaming
 
         private static void Main(string[] args)
         {
+            ColorConsole.WriteColorLine("Actor system created", ConsoleColor.Gray);
             movieStreamingActorSystem = ActorSystem.Create("movieStreamingActorSystem");
-            Console.WriteLine("Actor system created");
+            
 
             var userActorProps = Props.Create<UserActor>();
             var userActorRef = movieStreamingActorSystem.ActorOf(userActorProps, "UserActor");
