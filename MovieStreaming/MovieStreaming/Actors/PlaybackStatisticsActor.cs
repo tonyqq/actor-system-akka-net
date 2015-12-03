@@ -10,6 +10,7 @@ namespace MovieStreaming.Actors
         {
             Context.ActorOf(Props.Create<MoviePlayCounterActor>(), "MoviePlayCounter");
         }
+
         protected override void PreStart()
         {
             ColorConsole.WriteColorLine("PlaybackStatisticsActor PreStart", ConsoleColor.White);
