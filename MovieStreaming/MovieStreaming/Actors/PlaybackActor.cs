@@ -12,13 +12,6 @@ namespace MovieStreaming.Actors
             Context.ActorOf(Props.Create<PlaybackStatisticsActor>(), "PlaybackStatistics");
         }
 
-        private static void HandlePlayMovieMessage(PlayMovieMessage message)
-        {
-            ColorConsole.WriteColorLine(
-                $"PlayMovieMessage: {message.MovieTitle} for user: {message.UserId}",
-                ConsoleColor.Green);
-        }
-
         protected override void PreStart()
         {
             ColorConsole.WriteColorLine("PlaybackActor PreStart", ConsoleColor.Green);
